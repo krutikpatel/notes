@@ -127,8 +127,7 @@ https://github.com/kubernetes/kops/blob/master/docs/getting_started/aws.md
 
 
 iam:
-AKIA443734MR6Z5QCKU5
-nN8q+5lFW91ocHDW+SAh15ltleP84O08PgCv97kk
+
  https://886642041635.signin.aws.amazon.com/console
 
 kops create cluster --zones us-west-1b ${NAME} 
