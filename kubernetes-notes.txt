@@ -1,0 +1,166 @@
+kubernetes-notes
+----------------------
+official documentation:
+	https://kubernetes.io/docs/concepts/
+
+	CKAD possibly good book and course:
+	https://matthewpalmer.net/kubernetes-app-developer/#purchase-the-ebook
+
+play-with-k8s.com	
+
+minikube
+-if running, we the ipaddress to use is obtained by "minikube ip" => 192.168.99.100
+
+spring-cloud kubernetes
+	https://www.baeldung.com/spring-cloud-kubernetes
+	
+Service discovery patterns:
+	https://www.magalix.com/blog/kubernetes-patterns-the-service-discovery-pattern
+
+Good kubernetes articles:
+	https://www.magalix.com/blog/page/1
+	
+=================================
+sample POD definition yml file:
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: postgres
+  labels:
+    tier: db-tier
+spec:
+  containers:
+    - name: postgres
+      image: postgres
+      env:
+        - name: POSTGRES_PASSWORD
+          value: mysecretpassword
+===========================
+containers : is list
+pod yml file has 4 main sections.
+
+
+=================================
+Replication Controllers and ReplicaSets
+
+ReplicaSets
+	-some process that maintains given number of pod (of particular type) in given cluster.
+	-if they exist already, it will not create them, only when someone goes down, it will create it.
+	
+Replication Controllers
+	-creates and maintains pods of given definition.
+	
+sample replicaset definition yml:
+	apiVersion: apps/v1
+	kind: ReplicaSet
+	metadata:
+	  name: frontend
+	  labels:
+		app: mywebsite
+		tier: frontend
+	spec:
+	  replicas: 4  -------->
+	  template:		------->
+		metadata:
+		  name: myapp-pod
+		  labels:
+			app: myapp
+		spec:
+		  containers:
+			- name: nginx
+			  image: nginx
+	  selector:
+		matchLabels:
+		  app: myapp
+
+=====================================
+Deployment
+-how to deploy in prod env 
+-rollout new versions - update pods one by one 
+-rollback updates
+-pause etc
+
+example definition yml 
+	apiVersion: apps/v1
+	kind: Deployment	---------->
+	metadata:
+	  name: nginx-deployment
+	  labels:
+		app: nginx
+	spec:
+	  replicas: 3	--------->
+	  selector:	---------->
+		matchLabels:
+		  app: nginx
+	  template:
+		metadata:
+		  labels:
+			app: nginx
+		spec:
+		  containers:
+		  - name: nginx
+			image: nginx:1.14.2
+			ports:
+			- containerPort: 80
+			
+			
+todo:
+	update and rollback 
+	
+
+=======================================
+Networking
+
+Services
+-----------
+there are various types of services, they enable networking, allowing external entity to communicate with pods on nodes.
+
+
+AWS kubernetes cluster
+-------------
+initial steps at:
+https://github.com/ValaxyTech/DevOpsDemos/blob/master/Kubernetes/k8s-setup.md
+
+then:
+https://github.com/kubernetes/kops/blob/master/docs/getting_started/aws.md
+
+
+iam:
+AKIA443734MR6Z5QCKU5
+nN8q+5lFW91ocHDW+SAh15ltleP84O08PgCv97kk
+ https://886642041635.signin.aws.amazon.com/console
+
+kops create cluster --zones us-west-1b ${NAME} 
+
+above cmd needs ssh keys:
+	ssh-keygen -b 2048 -t rsa -f ~/.ssh/id_rsa
+	kops create secret --name ${NAME} sshpublickey admin -i ~/.ssh/id_rsa.pub
+
+chnage no of nodes 
+	kops edit ig nodes --name ${NAME}
+	kops get ig nodes --name ${NAME}
+	
+actually creeate resources in cloud
+kops update cluster ${NAME} --yes 
+
+kops validate cluster	 ==> will take couple of minuntes
+	-can check EC2 dashboard too for nodes getting fired-up
+-one load balancer also gets created, for kubernetes api 
+
+==
+another 
+steps for kubernetes setup on AWS:
+https://github.com/ValaxyTech/DevOpsDemos/blob/master/Kubernetes/k8s-setup.md
+
+
+udemy course files under cygwin space:
+	C:\cygwin64\home\kpatel\udemy_files
+
+Digital ocean:
+----------------
+	611$
+	for 15$ db, mongo will be extra
+	3 droplets of 5$ each 
+	and kubernetes 
+	

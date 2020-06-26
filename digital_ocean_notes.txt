@@ -1,0 +1,91 @@
+
+doctl CLI tool:
+	https://github.com/digitalocean/doctl
+
+download tool from:
+	https://github.com/digitalocean/doctl/releases
+	
+K8S how to links:
+	https://www.digitalocean.com/docs/kubernetes/how-to/
+	
+cd ~/.kube && kubectl --kubeconfig="test-k8s-cluster-1-node-kubeconfig.yaml" get nodes
+
+way to connect to my cluster kubernetes:
+	kubectl --kubeconfig="test-k8s-cluster-1-node-kubeconfig.yaml" get all
+	
+-if i put 	kubectl --kubeconfig="test-k8s-cluster-1-node-kubeconfig.yaml" 
+	under ~/.kube, it might not have to type it everytime..
+so:
+1.  cp test-k8s-cluster-1-node-kubeconfig.yaml ~/.kube/
+2. 	kubectl --kubeconfig="test-k8s-cluster-1-node-kubeconfig.yaml"
+
+abve did not work
+
+1. get contents of yaml file and put in local kube config file located at:
+2. C:\cygwin64\home\kpatel\.kube\config
+	(~./kube/config)
+
+not Working:
+doctl kubernetes cluster kubeconfig save test-k8s-cluster-1-node
+
+Working way:
+===========
+-save config file	
+-goto ~/.kube, and backup config file 
+-the overwrite that file with DO provided config file.
+
+
+
+Note:
+-manage droplet like ec2 from droplets tab. get ip, console, password ets there
+-curr root pw:
+	a71164aa5d4b1374388974f7b8
+	-once loggedin, prompted to change it.. company pw.
+-on web console, ctrl-v works for pasting.
+
+BUT,
+kubectl on droplet is useless, does not connect to managed cluster.
+
+
+Question:
+	https://www.digitalocean.com/community/questions/how-do-i-ssh-to-a-kubernetes-node
+
+SSH details:
+----------------
+https://www.digitalocean.com/docs/droplets/how-to/add-ssh-keys/to-existing-droplet/
+
+0. add ssh entry in firewall inbound rules !  Networking (main menu, not under droplet) -> firewall for that droplet
+1. reset password on droplets immediately after creating cluster. (eventhogh account has SSH, its not enabled by default to droplets created using K8S cluster)
+2. once u get pw in email, login from console, and 
+3. Log in to your Droplet using your local terminal and create the ~/.ssh directory if it does not already exist:
+
+mkdir -p ~/.ssh
+
+4.
+Create and open the ~/.ssh/authorized_keys file and paste public key.
+
+5.
+Once the authorized_keys file contains the public key, you need to update permissions on some of the files. The ~/.ssh directory and authorized_keys file must have specific restricted permissions (700 for ~/.ssh and 600 for authorized_keys). If they don't, you won't be able to log in.
+
+Make sure the permissions and ownership of the files are correct.
+
+chmod 600 ~/.ssh/authorized_keys
+OR 
+chmod -R go= ~/.ssh
+chown -R $USER:$USER ~/.ssh
+
+You can now log out of your Droplet. The next time you log in, you can do so without a password.
+
+	NOTE:
+	----
+	-console stuck on caps lock after attempting to pcopy paste public key, that too not copied fully.
+	-https://www.digitalocean.com/community/questions/console-stuck-in-caps-lock-mode
+	curl https://pastebin.com/raw/YLePgz8J >> ~/.ssh/authorized_keys
+	chmod 600 ~/.ssh/authorized_keys
+	-OR : Oh, and yes, the problem began when I pasted my public key into the terrible console app. After failing for several minutes to configure sshd to allow password-based authentication, the ultimate solution was to put the public key in a pastebin and wget / curl it from the console.
+	
+
+Kubernetes metrics server from marketplace:
+-----------------------------------------------
+helm uninstall metrics-server --namespace kube-system
+	

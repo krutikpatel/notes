@@ -1,0 +1,180 @@
+Spring and microservices notes
+================================
+
+official sample projects:
+	
+	
+official doc:
+	https://spring.io/projects/spring-boot
+	https://spring.io/projects/spring-cloud
+	
+	https://spring.io/guides
+	
+	
+Very good tutorial on each topics !
+	https://howtodoinjava.com/spring-boot-tutorials/
+	
+misc notes 
+------------
+
+swagger ui url:
+http://localhost:8080/swagger-ui.html
+
+-adding spring-security automatically adds login page, and credentials in app.prop
+-adding springdata-jpa also needs us to add db props in app.prop 
+
+local mysql on laptop:
+123mysql!@#
+
+HATEOAS names have chnaged:
+https://stackoverflow.com/questions/25352764/hateoas-methods-not-found
+In case you are using HATEOAS v1.0 and above (Spring boot >= 2.2.0), do note that the classnames have changed. Notably the below classes have been renamed:
+
+	ResourceSupport changed to RepresentationModel
+	Resource changed to EntityModel
+	Resources changed to CollectionModel
+	PagedResources changed to PagedModel
+	ResourceAssembler changed to RepresentationModelAssembler
+	
+mysql good utorial
+https://www.mysqltutorial.org/basic-mysql-tutorial.aspx	
+
+spring-rest-ecommerce from git
+https://github.com/vatri/spring-rest-ecommerce
+
+spring : application.properties
+	#imp we must have corresponding maven dep for whatever prop we add here otherwise project startup will have error
+	#spring.security.user.name=username
+
+how does spring framework work internally
+https://www.zoltanraffai.com/blog/how-does-spring-work-internally/
+
+To measure latency in API
+	-create middleware and log timestamps of req and response.
+	https://www.baeldung.com/spring-boot-add-filter
+
+	IMP - spring-metrics - can use prometheus, netflix atlas etc, can combine graphana as well to make dashboards
+	https://docs.spring.io/spring-metrics/docs/current/public/prometheus
+
+kafka good tutorial
+https://thepracticaldeveloper.com/2018/11/24/spring-boot-kafka-config/
+
+
+Load testing at scale nice option
+-------------------------------------
+	https://www.blazemeter.com/jmeter-load-testing/
+
+	https://locust.io/
+		example: https://github.com/instana/robot-shop/tree/master/load-gen
+	
+more links:
+	https://stackoverflow.com/questions/14254814/how-to-configure-jmeter-thread-group-for-1-million-request-in-10-seconds
+	http://www.nimrodstech.com/gatling-cluster-load-testing/
+	https://medium.com/better-practices/dont-get-techcrunched-performance-testing-for-your-http-apis-3196e40f6b70
+	https://flood.io/solutions/api-load-testing
+	
+		
+sample microservice application:
+-------------------------------------
+	imp: checkout what is "jhipster" - may be it has boilerplate
+	
+	https://github.com/microservices-demo
+	https://github.com/instana/robot-shop
+	https://github.com/sqshq/piggymetrics
+	https://github.com/rohitghatol/spring-boot-microservices
+	
+	Good eshop microservice app to follow - from microsoft - eshop 
+	https://docs.microsoft.com/en-us/dotnet/architecture/microservices/multi-container-microservice-net-applications/microservice-application-design
+
+	Sample sock shop API for modeling
+	https://microservices-demo.github.io/api/index.html
+	
+To visualize microservice : weavescope , weave-cloud
+	https://www.weave.works/oss/scope/
+
+application.properties and envirnment vars
+--------------------------------------------
+springboot will load one of application.properties, based on env variable given
+-that way we can run app in various modes, eg: loca, stage, prod 
+	
+Security
+------------------
+Spring OAuth 2 dev guide
+	https://projects.spring.io/spring-security-oauth/docs/oauth2.html
+	
+spring-cloud
+------------------
+spring-cloud kubernetes
+	https://www.baeldung.com/spring-cloud-kubernetes
+
+
+Logging and Application monitoring
+------------------------------------
+ELK, EFK stack 
+APM package on ELK stack - 
+	https://www.elastic.co/apm
+elastic apm vs prometheus
+
+example:
+	https://medium.com/@sece.cosmin/monitor-spring-boot-application-performance-with-elastic-apm-elasticsearch-and-kibana-8d4299cad2be
+
+ELK for exception and log scraping
+Prometheus and Graphana for Application profiling, monitoring app performance. req/response times, latency , db query latency etc 
+	
+<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.1.1.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	
+Prometheus and Graphana
+	https://mclarenappliedtechnologies.zendesk.com/hc/en-us/articles/360008182953-Setting-up-Infrastructure-Monitoring-with-Prometheus-and-Grafana
+
+Spring metrics - using prometheus - something to check 	
+https://docs.spring.io/spring-metrics/docs/current/public/prometheus	
+
+Search : springboot middleware (like nodejs middlewares)
+
+IMP resource: DZone -> performancezone
+	https://dzone.com/apm-tools-performance-monitoring-optimization
+	
+Springboot actuator -
+	-gives lot of info, and is copatible with Elastic and Prometheus also for scraping
+	Full doc:
+		https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html
+		
+	-https://www.baeldung.com/spring-rest-api-metrics
+
+SpringCloud monitoring:
+	https://howtodoinjava.com/spring-cloud/microservices-monitoring/
+	-using hysterix, eureka
+
+========================
+========================
+
+Java applciation profiling:
+	https://spring.io/blog/2015/12/10/spring-boot-memory-performance
+	https://bitmovin.com/finding-memory-leaks-java-p2/
+	https://dzone.com/articles/monitoring-and-profiling-spring-boot-application
+	
+		
+	
+TODO:
+springboot-rest + JPA -> in28mimns
+	+ exception handling
+	+ swagger
+	+ (mongodb) -> somewhere online
+
+
+	
+kafka repo:
+https://github.com/isek27/kafka-beginner-learnings
+
+Digital ocean:
+----------------
+	611$
+	for 15$ db, mongo will be extra
+	3 droplets of 5$ each 
+	and kubernetes 
+

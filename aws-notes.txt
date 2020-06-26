@@ -1,0 +1,29 @@
+AWS notes
+==============
+Elastic beanstalk is more suitable for webapps/application deployements
+-it has more fascilities on top of EC2
+
+IMP:
+whatever we create on AWS is local/specific to that region, so make sure u r in same region everytime.
+
+-if deploy using jar, use Java
+-if deploy using war, use tomcat as type of application.
+
+-create billing notifications on AWS 
+-create IAM user role to do all work, and leave root untouched after creating IAM user/role 
+
+-EC2 eastic IP is what we use, plublic IP will keep changing
+
+-Each application can have multiple environments where u can deploy it. eg: dev qa
+
+
+aws dev associate.
+https://acloud.guru/
+
+======================================
+======================================
+notes links:
+http://clusterfrak.com/notes/certs/aws_deva_notes/
+
+Edge location is CDN endpoints kind of thing whrer content is cached for htat geographical region.
+each region has one or more data centers called availability zones.

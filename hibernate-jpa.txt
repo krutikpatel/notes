@@ -1,0 +1,135 @@
+Hibernate and JPA
+====================
+
+-JPA requires entities to have no arg default constrictore and that too private
+
+-Repository manages entity (like service)
+	-all repositories need 
+	@Repository
+	{
+		@Autowired
+		EntityManager em;	--> JPA thing 
+		
+		public Course findById();
+		
+		Course deleteById();
+		
+		Course save(Course c);
+	}
+	
+-JPA projects ahve data.sql file, where we can put SQL cmds to run initially.
+
+-Diff betwee @Repository and @Service
+	The repository is where the data is stored. The service is what manipulates the data.
+	In a real-world situation comparison, if your money is stored in a vault in a bank, the vault is the repository. The teller that deposits, withdraws, etc is the service.
+	https://www.baeldung.com/spring-component-repository-service
+	
+	-Service uses Repository or DAO objects
+	
+-DAO vs Repository pattern
+https://stackoverflow.com/questions/8550124/what-is-the-difference-between-dao-and-repository-patterns
+	DAO is an abstraction of data persistence.
+	Repository is an abstraction of a collection of objects.
+
+	DAO would be considered closer to the database, often table-centric.
+	Repository would be considered closer to the Domain, dealing only in Aggregate Roots.
+
+	Repository could be implemented using DAO's, but you wouldn't do the opposite.
+
+	Also, a Repository is generally a narrower interface. It should be simply a collection of objects, with a Get(id), Find(ISpecification), Add(Entity).
+
+	A method like Update is appropriate on a DAO, but not a Repository - when using a Repository, changes to entities would usually be tracked by separate UnitOfWork.
+
+	It does seem common to see implementations called a Repository that is really more of a DAO, and hence I think there is some confusion about the difference between them.
+	
+-DAO good example
+	https://www.baeldung.com/simplifying-the-data-access-layer-with-spring-and-java-generics
+
+-IMP - Delete, Update, Add needs "Transcation"
+	-findById dont need it because its not modifying DB
+	
+	Add @Transcational to repositories
+	
+-Unit test @DirtiesContext
+	-any test that modifies DB, we want to revert to original state after that unit test, for other tests. thats what this annotation does.
+	
+EntityMAnager
+---------------	
+-em.persist(course);
+	Add new row to DB
+	-also, till end of that method, if that object is modified, it will be saved to DB as well. hence "persist"
+
+-@Transcational
+	-entire method becomes transactional.
+	-so, if a method does 
+		em.persist(course);
+		course.setName("dsf"); ===> this line will also be updated in DB !
+
+-em.flush()
+	-changes upto that point will be sent out to DB
+	-otherwise i think it will wait till end of method..
+	
+-em.detach(course2)
+	-em will no longer track changes to course2 and will not update/persist it in DB.
+	
+-em.clear()
+	-this will make em clear everything it was tracking sofar in this method.
+	
+-em.refresh(course1)
+	-this will fetch course1 from DB, and any local changes that were made before this to course1 will be lost/overwritten.
+	
+JPQL
+-----
+in JPQL, we write queries in terms of Entities,  classes with @Entity.
+
+-List<Course> l = em.createQuery("select c from Course c", Course.class).getResultList; --> if class not mentioned, it will be untyped/raw
+
+JPA config example:
+https://bitbucket360.harmonicinc.com/projects/NG/repos/vos_app_asset_acquisition/browse/vos_app_asset_acquisition/asset_acquisition_controller/src/main/java/com/harmonicinc/vos/asset/acquisition/spring/configuration/JpaConfig.java#7,36
+
+
+Hibernate Annotations
+--------------------------
+@Table
+@Column
+@CreationTimestamp
+@UpdateTimestamp
+
+
+
+
+
+
+
+
+
+
+Note:
+Hibernate byiselft does not specify what to use i htink, repository, sessionfactory , DAO etc 	
+
+
+================
+
+///////////
+skillset
+Experience designing/building scalable REST API’s
+Experience with open source frameworks
+Experience designing systems with an emphasis on modularity, efficiency and maintainability.
+Experience in full life-cycle software development, implementation, design and overall architecture.
+Hands-on experience with relational SQL (including window functions, recursion, etc.) and no-SQL technologies
+Understand the value of iterating fast; learning from small, safe, frequent changes
+Excellent written, verbal and interpersonal skills
+Experience with cloud-native and distributed architectures
+A plus to have knowledge of CI/CD & Dev-Ops tools
+A plus to have knowledge of GitHub/Gitlab/Bitbucket/Azure DevOps/AWS Codepipeline 
+A plus if you have worked in early stage, fast growth startups… especially in developer tooling!
+Desire to be part of an incredible team. That means being someone the team can count on, who communicates honestly and respects others and their views, who adapts quickly to changing priorities, drives positive change, and is committed to giving 100% 
+Ensures high quality of code, that can be safely co-authored in a fast growing organization  
+Is agile and enjoys the speed of a fast-paced, highly engaged startup environment, are curious, and constantly seek to improve standards as we go along 
+
+Our Tech Stack
+
+Current stack includes: Java, Python, NodeJS, TypeScript, Postgresql, MemSQL, Cassandra, Elasticsearch, CSS, React, AWS Cloud, Azure Cloud, Google Cloud, Docker, Kubernetes, Kafka, Terraform, CFTs,  etc.
+///////////	
+
+

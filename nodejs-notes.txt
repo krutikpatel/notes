@@ -1,0 +1,49 @@
+nodejs resources
+====================
+
+Search nodejs code examples:
+https://www.codota.com/code/javascript/functions/sleep/sleep
+
+*) Good way to sleep:
+https://stackoverflow.com/questions/951021/what-is-the-javascript-version-of-sleep
+
+*) Util.promisify:
+https://2ality.com/2017/05/util-promisify.html
+-if promisified function has ref to class variable via this. then:
+	https://github.com/nodejs/node/issues/30344
+		util.promisify(server.listen, server)
+		await listen.call(server, 9123);
+
+-Another way to wait on promises:
+	async () => {
+		const promises = [];
+		if (instanceId) promises.push(rmp.stopInstance(instanceId, isFailed, testCaseOutputFolder));
+		if (streamInfo && streamInfo.pid) promises.push(streamer.stopStream(streamInfo.pid));
+		if (easInstanceId) promises.push(eas.stopInstance(easInstanceId, isFailed, testCaseOutputFolder));
+		await Promise.all(promises);
+	})();
+
+*) Synchronized TCP connection (rather than using net.socket, do following, as per nodejs doc) :
+	async sendEasEvent() {    
+		try{
+			const sock = net.createConnection(9543, '127.0.0.1');
+			var data = fs.readFileSync(path.resolve(__dirname, 'easEvent.txt'), 'utf8');
+			log.info(data.toString());
+			
+			const promises = [];
+			promises.push(sock.write(data.toString()));
+			await Promise.all(promises);
+			//sock.write(data.toString());
+			
+			log.info('EasEvent data sent over socket');
+			sock.end();
+		} catch(err){
+			log.error('Error:', err.stack);
+		}
+	}
+	
+*) if you have try, catch, finally
+	and some async code in try/catch, finally will execute before that, thus not synchronous behavior.
+
+*) IS meteor worth exploring?
+	
