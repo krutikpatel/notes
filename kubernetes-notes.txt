@@ -147,6 +147,19 @@ kops validate cluster	 ==> will take couple of minuntes
 	-can check EC2 dashboard too for nodes getting fired-up
 -one load balancer also gets created, for kubernetes api 
 
+Networking for Springboot apps:
+------------------------------------
+	1. container need to expose the port where springboot server will be running/listening
+		-do that by using "expose" 5000 in Dockerfile
+	2. in pod.yaml:
+		-containers -> containerPort: 5000 (same as what u exposed from container)
+	3. In service.yaml:
+		-targetPort: 5000 (forward host 5000 traffic to container)
+		
+
+	To try connection from host:
+	- find clusterIp of service/LB
+		then: curl 10.245.229.39:80/hello-world
 ==
 another 
 steps for kubernetes setup on AWS:
